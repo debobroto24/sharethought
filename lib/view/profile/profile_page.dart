@@ -6,6 +6,29 @@ import 'package:sharethought/styles/ktext_style.dart';
 import '../../common_widget/custom_back_button.dart';
 
 class Profile_Page extends StatelessWidget {
+  final List<Map<String, String>> postList = [
+    {
+      "text": "this is new post",
+      "image":
+          "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg"
+    },
+    {
+      "text": "",
+      "image":
+          "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1700438400&semt=sph"
+    },
+    {
+      "text":
+          "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like",
+      "image": ""
+    },
+    {
+      "text": "this is new post",
+      "image":
+          "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg"
+    },
+  ];
+
   Profile_Page({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -17,6 +40,7 @@ class Profile_Page extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
+          physics: ScrollPhysics(),
           child: Column(
             children: [
               topProfileSection(width, context),
@@ -26,8 +50,10 @@ class Profile_Page extends StatelessWidget {
                   topBottomText(number: "0", text: "post"),
                   topBottomText(number: "0", text: "followers"),
                   topBottomText(number: "0", text: "follow"),
-                  ],
-              )
+                ],
+              ),
+              PostList(postList: postList, width: width)
+              // PostList(postList: postList, width: width)
             ],
           ),
         ),
@@ -53,7 +79,7 @@ class Profile_Page extends StatelessWidget {
     );
   }
 
-  SizedBox topProfileSection(double width, BuildContext context) {
+  Widget topProfileSection(double width, BuildContext context) {
     return SizedBox(
       width: width,
       height: Ksize.getHeight(context, width * .2),
@@ -67,7 +93,7 @@ class Profile_Page extends StatelessWidget {
     );
   }
 
-  Positioned menuIcon() {
+  Widget menuIcon() {
     return Positioned(
       top: 40.0, // Adjust the position based on your layout
       right: 10.0,
@@ -121,6 +147,96 @@ class Profile_Page extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+// comment section 
+
+class PostList extends StatelessWidget {
+  const PostList({
+    super.key,
+    required this.postList,
+    required this.width,
+  });
+
+  final List<Map<String, String>> postList;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    print("outoput is");
+    print(postList.length);
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: postList.length,
+      itemBuilder: (context, index) {
+       
+        return Padding(
+          padding: const EdgeInsets.only(top: 40),
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // text
+              if (postList[index]['text'] != null &&
+                  postList[index]['text']!.isNotEmpty) ...{
+                Padding(  
+                  padding: EdgeInsets.only(left: 15, right:15), 
+                  child: Text(
+                  postList[index]['text']!,
+                  style: ktextStyle.font18(Kcolor.baseBlack),
+                ),
+                )
+              },
+
+              const SizedBox(height: 10),
+
+              Image.asset(
+                "assets/images/error-image.png",
+                width: width,
+                fit: BoxFit.fitWidth,
+                height: MediaQuery.of(context).size.height * .2,
+              ),
+
+              Divider(color: Kcolor.baseGrey), 
+               const Divider(
+                    color: Kcolor.baseBlack,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  Padding(  
+                    padding:const EdgeInsets.only(left:20),
+                    child: Wrap(
+                       // Spacing between items
+                      // runSpacing: 8.0, // Spacing between lines
+                      children: [
+                        
+                        const Icon(Icons.favorite_outline_outlined, size: 30,),
+                        Text('20'),
+                        SizedBox(width: 20), 
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).pushNamed("/commentsection");
+                          },
+                          // child: Icon(Icons.comment_outlined, size: 30,)
+                          child: Image.asset("assets/images/comment.png", width: 30, height:30), 
+                          ),
+                        Text('230'),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Kcolor.baseBlack,
+                    indent: 20,
+                    endIndent: 20,
+                  )
+
+              // Image.asset("assets/images/error-image.png")
+            ],
+          ),
+        );
+      },
     );
   }
 }

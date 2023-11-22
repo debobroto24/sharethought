@@ -10,12 +10,22 @@ class ktextStyle {
         fontFamily: 'Arimo');
   }
 
+
+
   static TextStyle subtitle(Color color) {
     return TextStyle(
         color: color,
         fontSize: 25,
         fontWeight: FontWeight.w400,
         fontFamily: 'Arimo');
+  }
+
+  static TextStyle font18(Color color) {
+    return TextStyle(
+        color: color,
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'Roboto');
   }
 
   static TextStyle title(Color color) {
