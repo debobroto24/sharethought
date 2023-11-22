@@ -17,7 +17,7 @@ class KInputField extends StatelessWidget {
         height: 50,
         width: MediaQuery.of(context).size.width,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             icon, 

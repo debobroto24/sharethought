@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sharethought/common_widget/post_list.dart';
 import 'package:sharethought/styles/kcolor.dart';
 import 'package:sharethought/styles/ksize.dart';
 import 'package:sharethought/styles/ktext_style.dart';
 
 import '../../common_widget/custom_back_button.dart';
+import '../../route/route_generator.dart';
 
 class Profile_Page extends StatelessWidget {
   final List<Map<String, String>> postList = [
@@ -152,94 +154,6 @@ class Profile_Page extends StatelessWidget {
 }
 // comment section 
 
-class PostList extends StatelessWidget {
-  const PostList({
-    super.key,
-    required this.postList,
-    required this.width,
-  });
-
-  final List<Map<String, String>> postList;
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    print("outoput is");
-    print(postList.length);
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: postList.length,
-      itemBuilder: (context, index) {
-       
-        return Padding(
-          padding: const EdgeInsets.only(top: 40),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // text
-              if (postList[index]['text'] != null &&
-                  postList[index]['text']!.isNotEmpty) ...{
-                Padding(  
-                  padding: EdgeInsets.only(left: 15, right:15), 
-                  child: Text(
-                  postList[index]['text']!,
-                  style: ktextStyle.font18(Kcolor.baseBlack),
-                ),
-                )
-              },
-
-              const SizedBox(height: 10),
-
-              Image.asset(
-                "assets/images/error-image.png",
-                width: width,
-                fit: BoxFit.fitWidth,
-                height: MediaQuery.of(context).size.height * .2,
-              ),
-
-              Divider(color: Kcolor.baseGrey), 
-               const Divider(
-                    color: Kcolor.baseBlack,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                  Padding(  
-                    padding:const EdgeInsets.only(left:20),
-                    child: Wrap(
-                       // Spacing between items
-                      // runSpacing: 8.0, // Spacing between lines
-                      children: [
-                        
-                        const Icon(Icons.favorite_outline_outlined, size: 30,),
-                        Text('20'),
-                        SizedBox(width: 20), 
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).pushNamed("/commentsection");
-                          },
-                          // child: Icon(Icons.comment_outlined, size: 30,)
-                          child: Image.asset("assets/images/comment.png", width: 30, height:30), 
-                          ),
-                        Text('230'),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: Kcolor.baseBlack,
-                    indent: 20,
-                    endIndent: 20,
-                  )
-
-              // Image.asset("assets/images/error-image.png")
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -249,30 +163,22 @@ class MyDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                // Handle the onTap action for Home
-                Navigator.pop(context);
-              },
+            listTile(icon : Icon(Icons.settings), text: "Setting", onTap: (){}),
+            listTile(icon: Icon(Icons.email_outlined), text: "Email"  , onTap: (){
+              Navigator.pushNamed(context, RouteGenerator.addEmail);
+            }
             ),
-            listTile(context, Icon(Icons.settings), "Setting"),
-            listTile(context, Icon(Icons.email_outlined), "Email"),
           ],
         ),
       ),
     );
   }
 
-  ListTile listTile(BuildContext context, Icon icon, String text) {
+  ListTile listTile({required Icon icon,required String text,required VoidCallback onTap}) {
     return ListTile(
       leading: icon,
       title: Text(text),
-      onTap: () {
-        // Handle the onTap action for Settings
-        Navigator.pop(context);
-      },
+      onTap: onTap,
     );
   }
 }
