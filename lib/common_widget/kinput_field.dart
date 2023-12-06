@@ -7,8 +7,9 @@ class KInputField extends StatelessWidget {
   final TextEditingController controller; 
   final String hintText; 
   final Icon icon; 
+  final ValueChanged<String>? onChange; 
   const KInputField({
-    super.key, required this.hintText, required this.icon, required this.controller,  this.isObscure  = false,
+    super.key, required this.hintText, required this.icon, required this.controller,  this.isObscure  = false, this.onChange,
   });
 
   @override
@@ -25,6 +26,7 @@ class KInputField extends StatelessWidget {
             SizedBox( 
               width: MediaQuery.of(context).size.width * .8,
               child: TextFormField(
+                onChanged:onChange,
                 obscureText: isObscure,
                 controller: controller,
                 validator: (value){
